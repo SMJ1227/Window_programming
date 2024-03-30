@@ -70,7 +70,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			count = 0;
 		}
 		else if (wParam == VK_BACK) {
-			str[y][--count] = '\0';
+			if (count < 1 && y < 1) {
+				count = 1;
+			}
+			if (count < 1 && y > 0) {
+				y = (y - 1) % MAX_Y;
+				count = lstrlen(str[y]);
+				str[y][count++] = '\0';
+			}
+			else {
+				str[y][--count] = '\0';
+			}
 		}
 		else {
 			if (count < 30) {
