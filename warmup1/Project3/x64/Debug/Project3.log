@@ -1,0 +1,11 @@
+﻿  FileName.c
+C:\Users\서정민\Desktop\윈플\warmup1\Project3\FileName.c(33,11): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\서정민\Desktop\윈플\warmup1\Project3\FileName.c(181,48): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  C:\Users\서정민\Desktop\윈플\warmup1\Project3\FileName.c(181,48):
+  자리 표시자 및 해당 매개 변수에는 variadic 인수가 0개 필요하지만 1개가 제공되었습니다.
+  
+C:\Users\서정민\Desktop\윈플\warmup1\Project3\FileName.c(194,50): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  C:\Users\서정민\Desktop\윈플\warmup1\Project3\FileName.c(194,50):
+  자리 표시자 및 해당 매개 변수에는 variadic 인수가 0개 필요하지만 1개가 제공되었습니다.
+  
+  Project3.vcxproj -> C:\Users\서정민\Desktop\윈플\warmup1\x64\Debug\Project3.exe
