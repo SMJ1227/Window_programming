@@ -76,10 +76,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			break;
 		case VK_DELETE:		//캐럿이 놓인 단어가 삭제. 공백으로 구분
 			break;
-		case VK_HOME:
+		case VK_HOME:		// 캐럿이 그 줄 맨 앞으로
 			count = 0;
 			break;
 		case VK_END:		//캐럿이 그 줄 맨뒤로
+			count = lstrlen(str[y]);
 			break;
 		case VK_INSERT:		// 캐럿 위치에 문자 추가. 다시 누르면 원상 복귀
 			if (insert == 0) {
