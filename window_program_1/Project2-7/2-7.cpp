@@ -47,6 +47,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 # define MAX_X 31
 # define MAX_Y 10
 
+void delete_char(TCHAR str[MAX_Y][MAX_X], int y, int spaceCount) {
+	while (str[y][spaceCount] != '\0') {
+		str[y][spaceCount] = str[y][spaceCount + 1];
+		spaceCount++;
+	}
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	PAINTSTRUCT ps;
 	HDC hDC;
@@ -60,6 +67,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static int insert = 0;
 	static int upper = 0;
 	static int spaceCount = 0;
+	static int firstSpace = 0;
+	static int nextSpace = 0;
 
 	//--- 메세지 처리하기
 	switch (uMsg) {
@@ -132,13 +141,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				upper = 0;
 			}
 			break;
+		case VK_F11:
+			firstSpace = count;
+			while (str[y][firstSpace] != ' ') {
+				firstSpace--;
+				if (firstSpace == 0) {
+					break;
+				}
+			}
+			nextSpace = count;
+			while (str[y][nextSpace] != '\0' && str[y][nextSpace] != ' ') {
+				nextSpace++;
+				if (lstrlen(str[y]) == nextSpace) {
+					break;
+				}
+			}
+			for (int i = 0; i < (nextSpace - firstSpace); i++) {
+				delete_char(str, y, firstSpace);
+			}
+			if (count > lstrlen(str[y])) {
+				count = lstrlen(str[y]);
+			}
+			break;
 		case VK_F12:			//종료
 			PostQuitMessage(0);
 			break;
-		case VK_DELETE:		
-			//현재 캐럿이 놓인 단어가 (스페이스로 구분) 삭제되며 뒤의 문자들이 앞으로 나온다. 
-			//캐럿의 위치는 바뀌지 않는다. 마지막 문자였고 그 단어가 삭제되었다면 캐럿은 새로운 마지막 문자의 맨 뒤로 이동한다
-			
+		case VK_DELETE:			// 캐럿 뒤 글자 삭제
+			spaceCount = count;
+			delete_char(str, y, spaceCount);
+			break;
 		case VK_HOME:		// 캐럿이 그 줄 맨 앞으로
 			count = 0;
 			break;
