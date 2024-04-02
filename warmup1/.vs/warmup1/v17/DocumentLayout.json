@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\",
+  "WorkspaceRootPath": "D:\\GitHub\\Window_programming\\warmup1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ED830327-756B-4609-A367-48EC30AB893E}|Project8\\Project8.vcxproj|C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\Project8\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{ED830327-756B-4609-A367-48EC30AB893E}|Project8\\Project8.vcxproj|D:\\GitHub\\Window_programming\\warmup1\\Project8\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{ED830327-756B-4609-A367-48EC30AB893E}|Project8\\Project8.vcxproj|solutionrelative:Project8\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C77AD1F0-B96C-4A06-9967-98B5D9DD7B97}|Project4\\Project4.vcxproj|C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\Project4\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{C77AD1F0-B96C-4A06-9967-98B5D9DD7B97}|Project4\\Project4.vcxproj|D:\\GitHub\\Window_programming\\warmup1\\Project4\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C77AD1F0-B96C-4A06-9967-98B5D9DD7B97}|Project4\\Project4.vcxproj|solutionrelative:Project4\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -24,9 +24,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "FileName.c",
-              "DocumentMoniker": "C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\Project4\\FileName.c",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\warmup1\\Project4\\FileName.c",
               "RelativeDocumentMoniker": "Project4\\FileName.c",
-              "ToolTip": "C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\Project4\\FileName.c",
+              "ToolTip": "D:\\GitHub\\Window_programming\\warmup1\\Project4\\FileName.c",
               "RelativeToolTip": "Project4\\FileName.c",
               "ViewState": "AQIAALAAAAAAAAAAAAAAAMAAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
@@ -36,11 +36,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "FileName.c",
-              "DocumentMoniker": "C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\Project8\\FileName.c",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\warmup1\\Project8\\FileName.c",
               "RelativeDocumentMoniker": "Project8\\FileName.c",
-              "ToolTip": "C:\\Users\\\uC11C\uC815\uBBFC\\Desktop\\\uC708\uD50C\\warmup1\\Project8\\FileName.c",
+              "ToolTip": "D:\\GitHub\\Window_programming\\warmup1\\Project8\\FileName.c",
               "RelativeToolTip": "Project8\\FileName.c",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAQwEEAAAArAAAA",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAQwD0AAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-03-13T07:57:48.32Z",
               "EditorCaption": ""

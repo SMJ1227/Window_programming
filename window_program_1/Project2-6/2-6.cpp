@@ -48,8 +48,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	int m = rand() % 8 + 2;
 	int width = 800 / n;
 	int height = 600 / m;
-	TCHAR t_image[10];
-	char image[6][4] = {"!_!", "@_@", "#_#", "$_$", "%_%", "^_^"};
+	TCHAR t_image[100];
+	char image[6][100] = {"@   @\n @ @ \n  @  \n @ @ \n@   @",
+						"  #  \n # # \n#####\n  #  \n # # \n#####",
+						"*    *\n** **\n* * *\n** **\n*   *",
+						"-----\n    |\n-----\n|    \n-----",
+						"  `  \n ` ` \n`   `\n ` ` \n  `  ",
+						"^ ^ ^\n^ ^ ^\n^ ^ ^\n^ ^ ^\n^ ^ ^"};
 	int random;
 	//--- 메세지 처리하기
 	switch (uMsg) {
@@ -70,8 +75,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				FrameRect(hDC, &rect, hBrush);
 				DeleteObject(hBrush);
 				random = rand() % 6;
-				swprintf(t_image, 20, L"%hs", image[random]);
-				DrawText(hDC, t_image, lstrlen(t_image), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+				swprintf(t_image, 100, L"%hs", image[random]);
+				DrawText(hDC, t_image, lstrlen(t_image), &rect, DT_CENTER);
 			}
 		}
 		EndPaint(hWnd, &ps);

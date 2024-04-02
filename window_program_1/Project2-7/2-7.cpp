@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -57,6 +58,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static int y = 0;
 	static int count = 0;
 	static int insert = 0;
+	static int upper = 0;
+	static int spaceCount = 0;
 
 	//--- 메세지 처리하기
 	switch (uMsg) {
@@ -68,14 +71,74 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_LEFT:		//캐럿이 이동
+			if (count == 0 && y > 0) {
+				y--;
+				count = lstrlen(str[y]);
+			}
+			else if (count == 0 && y == 0) {
+				y = MAX_Y - 1;
+				count = lstrlen(str[y]);
+			}
+			else {
+				count--;
+			}
+			break;
 		case VK_UP:
+			if (y == 0) {
+				y = MAX_Y - 1;
+				if (count > lstrlen(str[y])) {
+					count = lstrlen(str[y]);
+				}
+			}
+			else {
+				y--;
+				if (count > lstrlen(str[y])) {
+					count = lstrlen(str[y]);
+				}
+			}
+			break;
 		case VK_RIGHT:
+			if (count == lstrlen(str[y]) && y >= MAX_Y - 1) {
+				y = 0;
+				count = 0;
+			}
+			else if (count == lstrlen(str[y])) {
+				y++;
+				count = 0;
+			}
+			else {
+				count++;
+			}
+			break;
 		case VK_DOWN:
+			if (y == MAX_Y - 1) {
+				y = 0;
+				if (count > lstrlen(str[y])) {
+					count = lstrlen(str[y]);
+				}
+			}
+			else {
+				y++;
+				if (count > lstrlen(str[y])) {
+					count = lstrlen(str[y]);
+				}
+			}
 			break;
 		case VK_F1:			//입력하는 문자가 대문자. 다시 누르면 원상태
+			if (upper == 0) {
+				upper = 1;
+			}
+			else {
+				upper = 0;
+			}
 			break;
-		case VK_DELETE:		//캐럿이 놓인 단어가 삭제. 공백으로 구분
+		case VK_F12:			//종료
+			PostQuitMessage(0);
 			break;
+		case VK_DELETE:		
+			//현재 캐럿이 놓인 단어가 (스페이스로 구분) 삭제되며 뒤의 문자들이 앞으로 나온다. 
+			//캐럿의 위치는 바뀌지 않는다. 마지막 문자였고 그 단어가 삭제되었다면 캐럿은 새로운 마지막 문자의 맨 뒤로 이동한다
+			
 		case VK_HOME:		// 캐럿이 그 줄 맨 앞으로
 			count = 0;
 			break;
@@ -98,7 +161,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	case WM_CHAR:
 		switch (wParam) {
 		case VK_ESCAPE:		// 화면이 다 지워지고 캐럿은 맨 윗줄 앞에 있다.
-			PostQuitMessage(0);
+			for (int i = 0; i < MAX_Y; i++) {
+				for (int j = 0; j < MAX_X; j++) {
+					str[i][j] = '\0';
+				}
+			}
+			y = 0;
+			count = 0;
 			break;
 		case VK_RETURN:
 			y = (y + 1) % MAX_Y;
@@ -140,14 +209,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		default:
 			if (count < 30) {
 				if (insert == 0) {
-					str[y][count++] = wParam;
+					if (upper == 0) {
+						str[y][count++] = wParam;
+					}
+					else {
+						str[y][count++] = toupper(wParam);
+					}	
 				}
 				else {
-					for (int i = lstrlen(str[y]); i >= count; i--) {
-						str[y][i + 1] = str[y][i];
-						// 뒹 ㅔ안사라져
+					if (upper == 0) {
+						for (int i = lstrlen(str[y]); i >= count; i--) {
+							str[y][i + 1] = str[y][i];
+						}
+						str[y][count++] = wParam;
 					}
-					str[y][count++] = wParam;
+					else {
+						for (int i = lstrlen(str[y]); i >= count; i--) {
+							str[y][i + 1] = str[y][i];
+						}
+						str[y][count++] = toupper(wParam);
+					}
 				}
 			}
 			else {
@@ -164,7 +245,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		hDC = BeginPaint(hWnd, &ps);
 		for (int i = 0; i < MAX_Y; i++) {
 			GetTextExtentPoint32(hDC, str[i], count, &size);
-			TextOut(hDC, 0, i * 20, str[i], lstrlen(str[i]));
+			if (lstrlen(str[i]) > 30) {
+				TextOut(hDC, 0, i * 20, str[i], 30);
+			}
+			else {
+				TextOut(hDC, 0, i * 20, str[i], lstrlen(str[i]));
+			}
 			if (i == y) {
 				SetCaretPos(size.cx, i * 20);
 			}

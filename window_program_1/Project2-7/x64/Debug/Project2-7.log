@@ -1,6 +1,8 @@
 ﻿  2-7.cpp
-D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(43,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(143,24): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(150,24): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(157,23): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(44,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(213,25): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(216,33): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(224,25): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(230,33): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project2-7\2-7.cpp(238,23): warning C4244: '=': 'WPARAM'에서 'TCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Project2-7.vcxproj -> D:\GitHub\Window_programming\window_program_1\x64\Debug\Project2-7.exe

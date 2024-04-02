@@ -7,12 +7,8 @@
       "RelativeMoniker": "D:0:0:{8D709408-6711-4E87-B9D0-CDCDC71DA50B}|Project2-7\\Project2-7.vcxproj|solutionrelative:Project2-7\\2-7.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22307347-0F2E-49EF-B60C-02E0529F8D95}|Project2-5\\Project2-5.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project2-5\\2-5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{22307347-0F2E-49EF-B60C-02E0529F8D95}|Project2-5\\Project2-5.vcxproj|solutionrelative:Project2-5\\2-5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5F106761-865F-4A3C-B193-A449D13128EA}|Project2-4\\Project2-4.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project2-4\\2-4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{5F106761-865F-4A3C-B193-A449D13128EA}|Project2-4\\Project2-4.vcxproj|solutionrelative:Project2-4\\2-4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{AC758715-43E8-4CF3-A3A1-069A4F590B8A}|Project2-6\\Project2-6.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project2-6\\2-6.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AC758715-43E8-4CF3-A3A1-069A4F590B8A}|Project2-6\\Project2-6.vcxproj|solutionrelative:Project2-6\\2-6.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,15 +22,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "2-4.cpp",
-              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-4\\2-4.cpp",
-              "RelativeDocumentMoniker": "Project2-4\\2-4.cpp",
-              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-4\\2-4.cpp",
-              "RelativeToolTip": "Project2-4\\2-4.cpp",
-              "ViewState": "AQIAAFQAAAAAAAAAAADwvwAAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "2-6.cpp",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-6\\2-6.cpp",
+              "RelativeDocumentMoniker": "Project2-6\\2-6.cpp",
+              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-6\\2-6.cpp",
+              "RelativeToolTip": "Project2-6\\2-6.cpp",
+              "ViewState": "AQIAACoAAAAAAAAAAAAAADgAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-30T12:29:14.014Z",
+              "WhenOpened": "2024-04-02T06:02:46.29Z",
               "EditorCaption": ""
             },
             {
@@ -45,22 +41,9 @@
               "RelativeDocumentMoniker": "Project2-7\\2-7.cpp",
               "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-7\\2-7.cpp",
               "RelativeToolTip": "Project2-7\\2-7.cpp",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAAwEQAAAATAAAA",
+              "ViewState": "AQIAAH8AAAAAAAAAAAAAADoAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-30T11:58:43.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "2-5.cpp",
-              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-5\\2-5.cpp",
-              "RelativeDocumentMoniker": "Project2-5\\2-5.cpp",
-              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-5\\2-5.cpp",
-              "RelativeToolTip": "Project2-5\\2-5.cpp",
-              "ViewState": "AQIAAD8AAAAAAAAAAAAAAFIAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-30T12:29:09.617Z",
               "EditorCaption": ""
             }
           ]
