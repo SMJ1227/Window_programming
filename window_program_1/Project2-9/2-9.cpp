@@ -445,3 +445,4 @@ void draw_pie_edge(HDC hdc, int centerX, int centerY, int default_shape) {
         break;
     }
 }
+    
