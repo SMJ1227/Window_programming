@@ -33,7 +33,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.hIconSm = LoadIcon(NULL, IDI_QUESTION);
 	RegisterClassEx(&WndClass);
 
-	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 0, 0, 800, 600, NULL, (HMENU)NULL, hInstance, NULL);
+	hWnd = CreateWindow(lpszClass, lpszWindowName, WS_OVERLAPPEDWINDOW, 0, 0, 1000, 1000, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
@@ -85,6 +85,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static COLORREF random_brush[10];
 	static TCHAR str[100];
 	static SIZE size;
+	static HPEN linePen = CreatePen(PS_SOLID, 1, RGB(0,0,0));
 	static HPEN hPen;
 	static HBRUSH hBrush;
 	
@@ -92,127 +93,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 
 	static int is_first = 0;
 	static int parsed = 0;
-	static int angle[10] = { 0 };
-	static int x1[10];
-	static int y1[10];
-	static int x2[10];
-	static int y2[10];
-	static int nWidth[10];
+	static int angle[20] = { 0 };
+	static int x1[20];
+	static int y1[20];
+	static int x2[20];
+	static int y2[20];
+	static int nWidth[20];
 	static int count = 0;
 	static int a = 0;
 
 	//--- 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
-		CreateCaret(hWnd, NULL, 5, 15);
-		ShowCaret(hWnd);
-		for (int i = 0; i < 10; i++) {
-			random_pen[i] = RGB(rand() % 256, rand() % 256, rand() % 256);
-			random_brush[i] = RGB(rand() % 256, rand() % 256, rand() % 256);
-		}
-		break;
-	case WM_KEYDOWN:
-		switch (wParam) {
-		case VK_LEFT:
-			x1[parsed] = x1[parsed] - 10;
-			x2[parsed] = x2[parsed] - 10;
-			break;
-		case VK_UP:
-			y1[parsed] = y1[parsed] - 10;
-			y2[parsed] = y2[parsed] - 10;
-			break;
-		case VK_RIGHT:	
-			x1[parsed] = x1[parsed] + 10;
-			x2[parsed] = x2[parsed] + 10;
-			break;
-		case VK_DOWN:
-			y1[parsed] = y1[parsed] + 10;
-			y2[parsed] = y2[parsed] + 10;
-			break;
-		}
-		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 	case WM_CHAR:
 		hDC = GetDC(hWnd);
 		switch (wParam)
 		{
-		case '+':
-		case '=':
-			if (nWidth[parsed] > 10) {
-				x2[parsed] = x2[parsed] + 10;
-				y2[parsed] = y2[parsed] + 10;
-			}
-			else {
-				nWidth[parsed]++;
-			}
+		case 'r':	// 재시작
 			break;
-		case '-':
-		case '_':
-			if (nWidth[parsed] < 1) {
-				x2[parsed] = x2[parsed] - 10;
-				y2[parsed] = y2[parsed] - 10;
-			}
-			else {
-				nWidth[parsed]--;
-			}
-			break;
-		case 'r':
-			random_pen[parsed] = RGB(rand() % 255, rand() % 255, rand() % 255);
-			break;
-		case 'b':
-			random_brush[parsed] = RGB(rand() % 255, rand() % 255, rand() % 255);
-			break;
-		case 'p':
-			parsed = (parsed - 1) % 10;
-			break;
-		case 'n':
-			parsed = (parsed + 1) % 10;
+		case 'w':
 			break;
 		case 'a':
-			a = 1;
+			break;
+		case 's':
+			break;
+		case 'd':
 			break;
 		case 'q':
 			PostQuitMessage(0);
 			break;
-		case VK_RETURN:
-			parsed = (parsed + 1) % 10;	// prased는 0부터 시작.
-			if (_stscanf(str, _T("%d %d %d %d %d %d"),
-				&angle[parsed], &x1[parsed], &y1[parsed], &x2[parsed], &y2[parsed], &nWidth[parsed]) != 6) 
-			{ 
-				count = 0;
-				memset(str, 0, sizeof(str));
-			}
-			else {
-				if (angle[parsed] > 6 || angle[parsed] < 1) {
-					count = 0;
-					parsed = parsed - 1;
-					memset(str, 0, sizeof(str));
-				}
-				else if (nWidth[parsed] < 1 || nWidth[parsed] > 10) {
-					count = 0;
-					parsed = parsed - 1;
-					memset(str, 0, sizeof(str));
-				}
-				else if (x2[parsed] > 800 || y2[parsed] > 600) {
-					count = 0;
-					parsed = parsed - 1;
-					memset(str, 0, sizeof(str));
-				}
-				count = 0;
-				memset(str, 0, sizeof(str));
-			}
-			break;
-		case VK_BACK:
-			if (count < 1) {
-				count = 0;
-			}
-			else {
-				str[--count] = '\0';
-			}
-			break;
 		default:
-			str[count++] = wParam;
-			str[count] = '\0';
 			break;
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
@@ -220,105 +131,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	case WM_PAINT:
 	{
 		hDC = BeginPaint(hWnd, &ps);
+		linePen
 		hPen = CreatePen(PS_SOLID, nWidth[parsed], random_pen[parsed]);
 		hBrush = CreateSolidBrush(random_brush[parsed]);
 
-		GetTextExtentPoint32(hDC, str, lstrlen(str), &size);
-		TextOut(hDC, 0, 0, str, lstrlen(str));
-		SetCaretPos(size.cx, 0);
-
-		switch (angle[parsed])
-		{
-		case 1:
-			SelectObject(hDC, hPen);
-			SetPixelV(hDC, x1[parsed], y1[parsed], random_pen[parsed]);
-			DeleteObject(hPen);
-			break;
-		case 2:
-			SelectObject(hDC, hBrush);
-			SelectObject(hDC, hPen);
-			DrawLine(hDC, x1[parsed], y1[parsed], x2[parsed], y2[parsed]);
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			break;
-		case 3:
-			SelectObject(hDC, hBrush);
-			SelectObject(hDC, hPen);
-			DrawTriangle(hDC, x1[parsed], y1[parsed], x2[parsed], y2[parsed]);
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			break;
-		case 4:
-			SelectObject(hDC, hBrush);
-			SelectObject(hDC, hPen);
-			DrawRectangle(hDC, x1[parsed], y1[parsed], x2[parsed], y2[parsed]);
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			break;
-		case 5:
-			SelectObject(hDC, hBrush);
-			SelectObject(hDC, hPen);
-			DrawPentagon(hDC, x1[parsed], y1[parsed], x2[parsed], y2[parsed]);
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			break;
-		case 6:
-			SelectObject(hDC, hBrush);
-			SelectObject(hDC, hPen);
-			DrawCircle(hDC, x1[parsed], y1[parsed], x2[parsed], y2[parsed]);
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			break;
-		}
-		if (a != 0) {
-			for (int i = 0; i < 10; i++) {
-				hPen = CreatePen(PS_SOLID, nWidth[parsed], random_pen[i]);
-				hBrush = CreateSolidBrush(random_brush[i]);
-				switch (angle[i]) {
-				case 1:
-					SelectObject(hDC, hPen);
-					SetPixelV(hDC, x1[i], y1[i], random_pen[i]);
-					DeleteObject(hPen);
-					break;
-				case 2:
-					SelectObject(hDC, hBrush);
-					SelectObject(hDC, hPen);
-					DrawLine(hDC, x1[i], y1[i], x2[i], y2[i]);
-					DeleteObject(hBrush);
-					DeleteObject(hPen);
-					break;
-				case 3:
-					SelectObject(hDC, hBrush);
-					SelectObject(hDC, hPen);
-					DrawTriangle(hDC, x1[i], y1[i], x2[i], y2[i]);
-					DeleteObject(hBrush);
-					DeleteObject(hPen);
-					break;
-				case 4:
-					SelectObject(hDC, hBrush);
-					SelectObject(hDC, hPen);
-					DrawRectangle(hDC, x1[i], y1[i], x2[i], y2[i]);
-					DeleteObject(hBrush);
-					DeleteObject(hPen);
-					break;
-				case 5:
-					SelectObject(hDC, hBrush);
-					SelectObject(hDC, hPen);
-					DrawPentagon(hDC, x1[i], y1[i], x2[i], y2[i]);
-					DeleteObject(hBrush);
-					DeleteObject(hPen);
-					break;
-				case 6:
-					SelectObject(hDC, hBrush);
-					SelectObject(hDC, hPen);
-					DrawCircle(hDC, x1[i], y1[i], x2[i], y2[i]);
-					DeleteObject(hBrush);
-					DeleteObject(hPen);
-					break;
-				}
-			}
-			a -= 1;
-		}
 		EndPaint(hWnd, &ps);
 		break;
 	}
@@ -327,8 +143,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		ReleaseDC(hWnd, hDC);
 		break;
 	case WM_DESTROY:
-		HideCaret(hWnd);
-		DestroyCaret();
 		PostQuitMessage(0);
 		break;
 	}
