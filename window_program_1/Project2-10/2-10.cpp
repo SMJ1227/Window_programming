@@ -9,7 +9,7 @@
 
 #define WINDOW_X 500
 #define WINDOW_Y 500
-#define GRID 40
+#define grid 40
 #define OBSTACLE 20
 
 HINSTANCE g_hInst;
@@ -96,11 +96,11 @@ void DrawCircle(HDC hdc, int x1, int y1, int x2, int y2) {
 }
 
 void DrawGrid(HDC hdc) {
-	for (double i = 0; i < GRID; i++) {
-		DrawLine(hdc, 0, i * (WINDOW_Y / GRID), WINDOW_X, i * (WINDOW_Y / GRID));
+	for (double i = 0; i < grid; i++) {
+		DrawLine(hdc, 0, i * (WINDOW_Y / grid), WINDOW_X, i * (WINDOW_Y / grid));
 	}
-	for (double j = 0; j < GRID; j++) {
-		DrawLine(hdc, j * (WINDOW_X / GRID), 0, j * (WINDOW_X / GRID), WINDOW_Y);
+	for (double j = 0; j < grid; j++) {
+		DrawLine(hdc, j * (WINDOW_X / grid), 0, j * (WINDOW_X / grid), WINDOW_Y);
 	}
 }
 
@@ -131,10 +131,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static HBRUSH obstacleBrush;
 		
 	static int angle = 4;
-	static int cellWidth = WINDOW_X / GRID;
-	static int cellHeight = WINDOW_Y / GRID;
-	static int player_width = WINDOW_X / GRID;
-	static int player_height = WINDOW_Y / GRID;
+	static int cellWidth = WINDOW_X / grid;
+	static int cellHeight = WINDOW_Y / grid;
+	static int player_width = WINDOW_X / grid;
+	static int player_height = WINDOW_Y / grid;
 	static int player_x = 0;
 	static int player_y = 0;
 	static int player_x1 = player_x * player_width;
@@ -151,13 +151,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		for (int i = 0; i < OBSTACLE; i++) {
 			bool is_colliding = true;
 			while (is_colliding) {
-				stones[i].x = rand() % GRID;
-				stones[i].y = rand() % GRID;
+				stones[i].x = rand() % grid;
+				stones[i].y = rand() % grid;
 				is_colliding = false;
 				if (stones[i].x == 0 && stones[i].y == 0) {
 					is_colliding = true;
 				}
-				else if ((stones[i].x == (GRID - 1) && stones[i].y == (GRID - 1))) {
+				else if ((stones[i].x == (grid - 1) && stones[i].y == (grid - 1))) {
 					is_colliding = true;
 				}
 				else {
@@ -189,7 +189,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			break;
 		case 'w':
 			if (player_y <= 0) {
-				player_y = GRID - 1;
+				player_y = grid - 1;
 			}
 			else {
 				player_y--;
@@ -198,7 +198,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			break;
 		case 'a':
 			if (player_x <= 0) {
-				player_x = GRID - 1;
+				player_x = grid - 1;
 			}
 			else {
 				player_x--;
@@ -206,7 +206,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			previous_char = 'a';
 			break;
 		case 's':
-			if (player_y >= GRID - 1) {
+			if (player_y >= grid - 1) {
 				player_y = 0;
 			}
 			else {
@@ -215,7 +215,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			previous_char = 's';
 			break;
 		case 'd':
-			if (player_x >= GRID - 1) {
+			if (player_x >= grid - 1) {
 				player_x = 0;
 			}
 			else {
@@ -237,7 +237,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					switch (previous_char)
 					{
 					case 'w':
-						if (player_y == GRID - 1) {
+						if (player_y == grid - 1) {
 							player_y = 0;
 						}
 						else {
@@ -245,7 +245,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 						}
 						break;
 					case 'a':
-						if (player_x == GRID - 1) {
+						if (player_x == grid - 1) {
 							player_x = 0;
 						}
 						else {
@@ -254,7 +254,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 						break;
 					case 's':
 						if (player_y == 0) {
-							player_y = GRID - 1;
+							player_y = grid - 1;
 						}
 						else {
 							player_y--;
@@ -262,7 +262,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 						break;
 					case 'd':
 						if (player_x == 0) {
-							player_x = GRID - 1;
+							player_x = grid - 1;
 						}
 						else {
 							player_x--;
@@ -303,7 +303,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		player_y2 = player_y1 + player_height;
 
 		// ≥°
-		if (player_x == (GRID - 1) && player_y == (GRID - 1)) {
+		if (player_x == (grid - 1) && player_y == (grid - 1)) {
 			if(player_color != end_color){ ShowMessageBoxLOSEColor(hWnd); }
 			else if(angle != 4){ ShowMessageBoxLOSEShape(hWnd); }
 			else { 
@@ -337,7 +337,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				SelectObject(hDC, obstacleBrush);
 				DrawRectangle(hDC, stones[i].x * cellWidth, stones[i].y * cellHeight,
 					(stones[i].x + 1) * cellWidth, (stones[i].y + 1) * cellHeight);
-				DrawRectangle(hDC, (GRID - 1) * cellWidth, (GRID - 1) * cellHeight, GRID * cellWidth, GRID * cellHeight); // goal
+				DrawRectangle(hDC, (grid - 1) * cellWidth, (grid - 1) * cellHeight, grid * cellWidth, grid * cellHeight); // goal
 				DeleteObject(obstacleBrush);
 				break;
 			case 3:	// √‡º“

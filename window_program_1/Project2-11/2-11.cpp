@@ -169,7 +169,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			parsed = (parsed + 1) % 10;
 			break;
 		case 'a':
-			a = 1;
+			if (a == 0) {
+				a = 1;
+			}
+			else {
+				a = 0;
+			}
 			break;
 		case 'q':
 			PostQuitMessage(0);
@@ -317,7 +322,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					break;
 				}
 			}
-			a -= 1;
 		}
 		EndPaint(hWnd, &ps);
 		break;
