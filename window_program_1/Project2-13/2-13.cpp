@@ -54,6 +54,17 @@ typedef struct ALP {
 	char alp;
 };
 
+typedef struct ANSWER {
+	int x;
+	int y;
+	char words[20];
+	int hide;
+};
+
+void ShowMessageBoxWIN(HWND hWnd) {
+	MessageBox(hWnd, L"성공", L"성공", MB_OK);
+}
+
 void DrawLine(HDC hdc, int x1, int y1, int x2, int y2) {
 	MoveToEx(hdc, x1, y1, NULL);
 	LineTo(hdc, x2, y2);
@@ -75,10 +86,9 @@ void DrawGrid(HDC hdc) {
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	PAINTSTRUCT ps;
 	HDC hDC;
-	TCHAR str1[10] = L"apple";
 	static ALP alpa[26];
+	static ANSWER answer[3];
 
-	static int rand1;
 	srand((unsigned int)time(NULL));
 
 	static SIZE size;
@@ -98,7 +108,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	//--- 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
-		rand1 = rand() % _tcslen(str1);
+		strcpy(answer[0].words, "apple");
+		strcpy(answer[1].words, "window");
+		strcpy(answer[2].words, "programming");
+		for (int i = 0; i < 3; i++) {
+			answer[i].hide = rand() % strlen(answer[i].words);
+			answer[i].x = rand() % strlen(answer[i].words);
+			answer[i].y = rand() % GRID;
+		}
 		for (int i = 0; i < 26; i++) {
 			alpa[i].alp = 'a' + i;
 			alpa[i].x = rand() % GRID;
@@ -110,6 +127,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		switch (wParam)
 		{
 		case 's':
+			for (int i = 0; i < 3; i++) {
+				answer[i].hide = rand() % strlen(answer[i].words);
+				answer[i].x = rand() % strlen(answer[i].words);
+				answer[i].y = rand() % GRID;
+			}
+			for (int i = 0; i < 26; i++) {
+				alpa[i].alp = 'a' + i;
+				alpa[i].x = rand() % GRID;
+				alpa[i].y = rand() % GRID;
+			}
 			break;
 		case 'q':
 			PostQuitMessage(0);
@@ -244,6 +271,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		}
 
 		// 정답 체크
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (alpa[i].x == answer[j].x + answer[j].hide && alpa[i].y == answer[j].y) {
+					if (alpa[i].alp == answer[j].words[answer[j].hide]) {
+						ShowMessageBoxWIN(hWnd);
+						PostQuitMessage(0);
+					}
+				}
+			}
+		}
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 
@@ -255,13 +292,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		SelectObject(hDC, hBrush);
 		DrawRectangle(hDC, player_x1, player_y1, player_x2, player_y2);
 
-		for (int i = 0; i < _tcslen(str1); i++) {
-			if (i == rand1) { continue; }
-			TCHAR singleChar[2]; // 개별 문자를 저장할 배열
-			singleChar[0] = str1[i]; // 개별 문자 할당
-			singleChar[1] = '\0'; // 문자열 종료 문자 추가
+		for (int j = 0; j < 3; j++) {
+			for (int i = 0; i < strlen(answer[j].words); i++) {
 
-			TextOut(hDC, i * grid + 10, grid + 5, singleChar, 1); // 개별 문자 출력
+				if (i == answer[j].hide) {
+					continue;
+				}
+				TCHAR singleChar[2]; // 개별 문자를 저장할 배열
+
+				singleChar[0] = answer[j].words[i]; // 개별 문자 할당
+				singleChar[1] = '\0'; // 문자열 종료 문자 추가
+
+				TextOut(hDC, (answer[j].x + i)* grid + 10, answer[j].y* grid + 5, singleChar, 1); // 개별 문자 출력
+			}
 		}
 
 		for (int i = 0; i < 26; i++) {
