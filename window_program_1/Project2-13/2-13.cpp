@@ -48,8 +48,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return Message.wParam;
 }
 
-typedef struct WORDS {
-	char word[10];
+typedef struct ALP {
+	int x;
+	int y;
+	char alp;
 };
 
 void DrawLine(HDC hdc, int x1, int y1, int x2, int y2) {
@@ -59,10 +61,6 @@ void DrawLine(HDC hdc, int x1, int y1, int x2, int y2) {
 
 void DrawRectangle(HDC hdc, int x1, int y1, int x2, int y2) {
 	Rectangle(hdc, x1, y1, x2, y2);
-}
-
-void DrawCircle(HDC hdc, int x1, int y1, int x2, int y2) {
-	Ellipse(hdc, x1, y1, x2, y2);
 }
 
 void DrawGrid(HDC hdc) {
@@ -77,7 +75,10 @@ void DrawGrid(HDC hdc) {
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	PAINTSTRUCT ps;
 	HDC hDC;
+	TCHAR str1[10] = L"apple";
+	static ALP alpa[26];
 
+	static int rand1;
 	srand((unsigned int)time(NULL));
 
 	static SIZE size;
@@ -85,16 +86,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static HBRUSH hBrush = CreateSolidBrush(RGB(255,0,0));
 	static HPEN hPen;
 
+	static int grid = WINDOW_X / GRID;
 	static int x = 0;
 	static int y = 0;
-	static int player_x1 = x * WINDOW_X / GRID;
-	static int player_y1 = y * WINDOW_Y / GRID;
-	static int player_x2 = player_x1 + WINDOW_X / GRID;
-	static int player_y2 = player_y2 + WINDOW_Y / GRID;
+	static int player_x1 = x * grid;
+	static int player_y1 = y * grid;
+	static int player_x2 = player_x1 + grid;
+	static int player_y2 = player_y1 + grid;
+	static char prev_keydown;
 
 	//--- 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
+		rand1 = rand() % _tcslen(str1);
+		for (int i = 0; i < 26; i++) {
+			alpa[i].alp = 'a' + i;
+			alpa[i].x = rand() % GRID;
+			alpa[i].y = rand() % GRID;
+		}
 		break;
 	case WM_CHAR:
 		hDC = GetDC(hWnd);
@@ -118,6 +127,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			else {
 			x--;
 			}
+			prev_keydown = 'a';
 			break;
 		case VK_RIGHT:
 			if (x == GRID - 1) {
@@ -126,6 +136,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			else {
 				x++;
 			}
+			prev_keydown = 'd';
 			break;
 		case VK_UP:
 			if (y == 0) {
@@ -134,6 +145,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			else {
 				y--;
 			}
+			prev_keydown = 'w';
 			break;
 		case VK_DOWN:
 			if (y == GRID - 1) {
@@ -142,12 +154,96 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			else {
 				y++;
 			}
+			prev_keydown = 's';
 			break;
 		}
-		player_x1 = x * WINDOW_X / GRID;
-		player_y1 = y * WINDOW_Y / GRID;
-		player_x2 = player_x1 + WINDOW_X / GRID;
-		player_y2 = player_y1 + WINDOW_Y / GRID;
+		player_x1 = x * grid;
+		player_y1 = y * grid;
+		player_x2 = player_x1 + grid;
+		player_y2 = player_y1 + grid;
+
+		// 충돌체크
+		for (int i = 0; i < 26; i++) {
+			if (x == alpa[i].x && y == alpa[i].y) {
+				switch (prev_keydown)
+				{
+				case 'w':
+					if (alpa[i].y == 0) {
+						alpa[i].y = GRID - 1;
+					}
+					else {
+						alpa[i].y--;
+					}
+					break;
+				case 'a':
+					if (alpa[i].x == 0) {
+						alpa[i].x = GRID - 1;
+					}
+					else {
+						alpa[i].x--;
+					}
+					break;
+				case 's':
+					if (alpa[i].y == GRID - 1) {
+						alpa[i].y = 0;
+					}
+					else {
+						alpa[i].y++;
+					}
+					break;
+				case 'd':
+					if (alpa[i].x == GRID - 1) {
+						alpa[i].x = 0;
+					}
+					else {
+						alpa[i].x++;
+					}
+					break;
+				}
+			}
+			for (int j = 0; j < 26; j++) {
+				if (j == i) { continue; }
+				if (alpa[i].x == alpa[j].x && alpa[i].y == alpa[j].y) {
+					switch (prev_keydown)
+					{
+					case 'w':
+						if (alpa[j].y == 0) {
+							alpa[j].y = GRID - 1;
+						}
+						else {
+							alpa[j].y--;
+						}
+						break;
+					case 'a':
+						if (alpa[j].x == 0) {
+							alpa[j].x = GRID - 1;
+						}
+						else {
+							alpa[j].x--;
+						}
+						break;
+					case 's':
+						if (alpa[j].y == GRID - 1) {
+							alpa[j].y = 0;
+						}
+						else {
+							alpa[j].y++;
+						}
+						break;
+					case 'd':
+						if (alpa[j].x == GRID - 1) {
+							alpa[j].x = 0;
+						}
+						else {
+							alpa[j].x++;
+						}
+						break;
+					}
+				}
+			}
+		}
+
+		// 정답 체크
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 
@@ -158,6 +254,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 
 		SelectObject(hDC, hBrush);
 		DrawRectangle(hDC, player_x1, player_y1, player_x2, player_y2);
+
+		for (int i = 0; i < _tcslen(str1); i++) {
+			if (i == rand1) { continue; }
+			TCHAR singleChar[2]; // 개별 문자를 저장할 배열
+			singleChar[0] = str1[i]; // 개별 문자 할당
+			singleChar[1] = '\0'; // 문자열 종료 문자 추가
+
+			TextOut(hDC, i * grid + 10, grid + 5, singleChar, 1); // 개별 문자 출력
+		}
+
+		for (int i = 0; i < 26; i++) {
+			TCHAR singleChar[2]; // 개별 문자를 저장할 배열
+			singleChar[0] = alpa[i].alp; // 개별 문자 할당
+			singleChar[1] = '\0'; // 문자열 종료 문자 추가
+			TextOut(hDC, alpa[i].x * grid + 10, alpa[i].y * grid + 5, singleChar, 1); // 개별 문자 출력
+		}
 		EndPaint(hWnd, &ps);
 		break;
 	}
