@@ -197,48 +197,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		switch (mode)
 		{
 		case 1:
-			// 알파벳 충돌체크
-			for (int i = 0; i < 26; i++) {
-				if (x == alpa[i].x && y == alpa[i].y) {
-					switch (prev_keydown)
-					{
-					case 'w':
-						if (alpa[i].y == 0) {
-							alpa[i].y = GRID - 1;
-						}
-						else {
-							alpa[i].y--;
-						}
-						break;
-					case 'a':
-						if (alpa[i].x == 0) {
-							alpa[i].x = GRID - 1;
-						}
-						else {
-							alpa[i].x--;
-						}
-						break;
-					case 's':
-						if (alpa[i].y == GRID - 1) {
-							alpa[i].y = 0;
-						}
-						else {
-							alpa[i].y++;
-						}
-						break;
-					case 'd':
-						if (alpa[i].x == GRID - 1) {
-							alpa[i].x = 0;
-						}
-						else {
-							alpa[i].x++;
-						}
-						break;
-					}
-				}
-			}
-			break;
-		case 2:
 			// 숫자 충돌체크
 			for (int i = 0; i < 10; i++) {
 				if (x == numbers[i].x && y == numbers[i].y) {
@@ -274,6 +232,48 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 						}
 						else {
 							numbers[i].x++;
+						}
+						break;
+					}
+				}
+			}
+			break;
+		case 2:
+			// 알파벳 충돌체크
+			for (int i = 0; i < 26; i++) {
+				if (x == alpa[i].x && y == alpa[i].y) {
+					switch (prev_keydown)
+					{
+					case 'w':
+						if (alpa[i].y == 0) {
+							alpa[i].y = GRID - 1;
+						}
+						else {
+							alpa[i].y--;
+						}
+						break;
+					case 'a':
+						if (alpa[i].x == 0) {
+							alpa[i].x = GRID - 1;
+						}
+						else {
+							alpa[i].x--;
+						}
+						break;
+					case 's':
+						if (alpa[i].y == GRID - 1) {
+							alpa[i].y = 0;
+						}
+						else {
+							alpa[i].y++;
+						}
+						break;
+					case 'd':
+						if (alpa[i].x == GRID - 1) {
+							alpa[i].x = 0;
+						}
+						else {
+							alpa[i].x++;
 						}
 						break;
 					}
@@ -424,12 +424,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					if (i == j) { continue; }
 					if (numbers[i].x == numbers[j].x && numbers[i].y == numbers[j].y) {
 						numbers[i].number = numbers[i].number + numbers[j].number;
+						// 마지막 숫자는 초기화
 						for (int k = j; k < 9; k++) {
 							numbers[k].x = numbers[k + 1].x;
 							numbers[k].y = numbers[k + 1].y;
 							numbers[k].number = numbers[k + 1].number;
 						}
-						// 마지막 숫자는 초기화
 						numbers[9].x = -1;
 						numbers[9].y = -1;
 						numbers[9].number = -1;
@@ -452,15 +452,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 						}
 						// 숫자를 다시 알파벳으로 변환하여 저장
 						alpa[i].alp = (wchar_t)(L'a' + sum - 1);
+						// 마지막 영어는 초기화
 						for (int k = j; k < 25; k++) {
 							alpa[k].x = alpa[k + 1].x;
 							alpa[k].y = alpa[k + 1].y;
 							alpa[k].alp = alpa[k + 1].alp;
 						}
-						// 마지막 숫자는 초기화
 						alpa[25].x = -1;
 						alpa[25].y = -1;
 						alpa[25].alp = 'a';
+						break;
+					}
+				}
+			}
+			// 영어숫자 체크
+			for (int i = 0; i < 26; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (alpa[i].x == numbers[j].x && alpa[i].y == numbers[j].y) {
+						// 각 알파벳을 1부터 26까지의 숫자로 매핑하여 더함
+						int num_i = alpa[i].alp - L'a' + 1;
+						int num_j = numbers[j].number;
+						int sum = num_i + num_j;
+						// 더한 결과가 26을 넘어가면 26으로 나눈 나머지를 사용함
+						if (sum > 26) {
+							sum %= 26;
+						}
+						// 숫자를 다시 알파벳으로 변환하여 저장
+						alpa[i].alp = (wchar_t)(L'a' + sum - 1);
+						// 마지막 숫자는 초기화
+						for (int k = j; k < 9; k++) {
+							numbers[k].x = numbers[k + 1].x;
+							numbers[k].y = numbers[k + 1].y;
+							numbers[k].number = numbers[k + 1].number;
+						}
+						numbers[9].x = -1;
+						numbers[9].y = -1;
+						numbers[9].number = -1;
 						break;
 					}
 				}
