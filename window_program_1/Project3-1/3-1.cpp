@@ -102,10 +102,12 @@ void DrawGrid(HDC hdc, int grid) {
 	}
 }
 void InitBRICK(BRICK *brick, int mouse_x, int mouse_y, int brick_num, int grid) {
-	brick[brick_num].x1 = mouse_x;
-	brick[brick_num].y1 = mouse_y;
-	brick[brick_num].x2 = mouse_x + grid;
-	brick[brick_num].y2 = mouse_y + grid;
+	brick[brick_num].x = mouse_x / grid;
+	brick[brick_num].y = mouse_y / grid;
+	brick[brick_num].x1 = brick[brick_num].x * grid;
+	brick[brick_num].y1 = brick[brick_num].y * grid;
+	brick[brick_num].x2 = brick[brick_num].x1 + grid;
+	brick[brick_num].y2 = brick[brick_num].y1 + grid;
 }
 
 void InitPlayer(PLAYER *player, int grid) {
@@ -131,6 +133,7 @@ void initStones(PLAYER* player, int grid) {
 	player->color = RGB(rand() % 256 , rand() % 256, rand() % 256);
 	player->rl = rand() % 2;	// rl = 0 오른쪽 rl = 1 왼쪽
 	player->ud = rand() % 2;	// ud = 0 아래쪽 ud = 1위쪽
+	player->rlud = rand() % 4;
 	player->is_move = 0;
 }
 
@@ -170,14 +173,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 
 	static PLAYER player[21];
 	static int prev_move[21];
+	static int tail[21];
 	
 	int grid = WINDOW_X / GRID;
 	static int speed = 150;
 
-	static int mouse_x;
-	static int mouse_y;
+	static int l_mouse_x;
+	static int l_mouse_y;
+	static int smaller = 0;
 
-	static int count2 = 0;
+	static int r_mouse_x;
+	static int r_mouse_y;
+	static int foundPlayer = 0;
+
 	//--- 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
@@ -189,153 +197,204 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		break;
 
 	case WM_LBUTTONDOWN:
-		mouse_x = LOWORD(IParam);
-		mouse_y = HIWORD(IParam);
+		l_mouse_x = LOWORD(IParam);
+		l_mouse_y = HIWORD(IParam);
 		for (int i = 0; i < 21; i++) {
-			if (player[i].x1 <= mouse_x && player[i].x2 >= mouse_x) {	// x좌표 일치
-				if (player[i].y1 <= mouse_y && player[i].y2 >= mouse_y) {	// y좌표 일치
+			if (player[i].x1 <= l_mouse_x && player[i].x2 >= l_mouse_x) {	// x좌표 일치
+				if (player[i].y1 <= l_mouse_y && player[i].y2 >= l_mouse_y) {	// y좌표 일치
 					if (i == 0) {	// 주인공이면
-						count2 = 1;
+						smaller = 1;
 					}
 				}
 			}
 			else {
-				move_to_mouse(player, mouse_x, mouse_y);
+				move_to_mouse(player, l_mouse_x, l_mouse_y);
 			}
 		}
 		break;
 
 	case WM_RBUTTONDOWN:
-		mouse_x = LOWORD(IParam);
-		mouse_y = HIWORD(IParam);
+		r_mouse_x = LOWORD(IParam);
+		r_mouse_y = HIWORD(IParam);
 		for (int i = 0; i < 21; i++) {
-			if (player[i].x1 <= mouse_x && player[i].x2 >= mouse_x) {	// x좌표 일치
-				if (player[i].y1 <= mouse_y && player[i].y2 >= mouse_y) {	// y좌표 일치
+			if (player[i].x1 <= r_mouse_x && player[i].x2 >= r_mouse_x) {	// x좌표 일치
+				if (player[i].y1 <= r_mouse_y && player[i].y2 >= r_mouse_y) {	// y좌표 일치
+					foundPlayer = 1;
 					break;
 				}
 			}
-			else {
-				InitBRICK(brick, mouse_x, mouse_y, brick_num, grid);
-				//brick_num++;
-			}
+		}
+		if (!foundPlayer) { 
+			InitBRICK(brick, r_mouse_x, r_mouse_y, brick_num, grid);
+			brick_num++;
 		}
 		break;
 
 	case WM_TIMER:
-		switch (wParam)
-		{
-		case 1:
-			switch (player[0].rlud)
-			{
-			case 0:	// 오른쪽
-				if (player[0].x == GRID - 1) {	// 오른쪽 벽에 닿으면
-					if (player[0].ud == 0) {	// 아래 방향
-						if (player[0].y == GRID - 1) {	// 마지막줄이면 위쪽 방향 왼쪽 이동
-							player[0].rlud = 2;
-							player[0].ud = 1;
+		for (int a = 0; a < 21; a++) {
+			if (player[a].is_move == 1) {
+				switch (player[a].rlud)
+				{
+				case 0:	// 오른쪽
+					if (player[a].x == GRID - 1) {	// 오른쪽 벽에 닿으면
+						if (player[a].ud == 0) {	// 아래 방향
+							if (player[a].y == GRID - 1) {	// 마지막줄이면 위쪽 방향 왼쪽 이동
+								player[a].rlud = 2;
+								player[a].ud = 1;
+							}
+							else {	// 아래줄 왼쪽 이동
+								player[a].y++;
+								player[a].rlud = 2;
+							}
 						}
-						else {	// 아래줄 왼쪽 이동
-							player[0].y++;
-							player[0].rlud = 2;
-						}
-					}	 
-					else {	// 윗방향
-						if (player[0].y == 0) {	// 첫째줄이면 아래 방향 왼쪽 이동
-							player[0].rlud = 2;
-							player[0].ud = 0;
-						}
-						else {	// 윗줄 왼쪽 이동
-							player[0].y--;
-							player[0].rlud = 2;
+						else {	// 윗방향
+							if (player[a].y == 0) {	// 첫째줄이면 아래 방향 왼쪽 이동
+								player[a].rlud = 2;
+								player[a].ud = 0;
+							}
+							else {	// 윗줄 왼쪽 이동
+								player[a].y--;
+								player[a].rlud = 2;
+							}
 						}
 					}
-				}
-				else { player[0].x++; }	// 오른쪽으로
-				break;
-			case 1:	// 아래 이동
-				if (player[0].y == GRID - 1) {	// 맨 아래 줄이면
-					if (player[0].rl == 0) {	// 오른쪽 아래로 진행중
-						if (player[0].x == GRID - 1) {	// 마지막 칸이면 왼쪽 위로
-							player[0].rlud = 3;
-							player[0].rl = 1;
+					else { player[a].x++; }	// 오른쪽으로
+					break;
+				case 1:	// 아래 이동
+					if (player[a].y == GRID - 1) {	// 맨 아래 줄이면
+						if (player[a].rl == 0) {	// 오른쪽 아래로 진행중
+							if (player[a].x == GRID - 1) {	// 마지막 칸이면 왼쪽 위로
+								player[a].rlud = 3;
+								player[a].rl = 1;
+
+							}
+							else {
+								player[a].x++;
+								player[a].rlud = 3;
+							}
+						}
+						else {	// 왼쪽 아래로 진행중
+							if (player[a].x == 0) {
+								player[a].rlud = 3;
+								player[a].rl = 0;
+							}
+							else {
+								player[a].x--;
+								player[a].rlud = 3;
+							}
+						}
+					}
+					else { player[a].y++; }	// 아래로 이동
+					break;
+				case 2:	// 왼쪽
+					if (player[a].x == 0) {	// 왼쪽 벽
+						if (player[a].ud == 0) {	// 아래로
+							if (player[a].y == GRID - 1) {	// 마지막줄이면 오른쪽 위
+								player[a].rlud = 0;
+								player[a].ud = 1;
+							}
+							else {
+								player[a].y++;
+								player[a].rlud = 0;
+							}
 
 						}
-						else {
-							player[0].x++;
-							player[0].rlud = 3;
+						else {	// 위로
+							if (player[a].y == 0) {	// 첫줄
+								player[a].rlud = 0;
+								player[a].ud = 0;
+							}
+							else {
+								player[a].y--;
+								player[a].rlud = 0;
+							}
 						}
 					}
-					else {	// 왼쪽 아래로 진행중
-						if (player[0].x == 0) {
-							player[0].rlud = 3;
-							player[0].rl = 0;
+					else { player[a].x--; }
+					break;
+				case 3:	// 위로
+					if (player[a].y == 0) {	// 윗 벽
+						if (player[a].rl == 0) {	// 오른쪽
+							if (player[a].x == GRID - 1) {	// 오른쪽 끝
+								player[a].rlud = 1;
+								player[a].rl = 1;
+							}
+							else {
+								player[a].x++;
+								player[a].rlud = 1;
+							}
 						}
-						else {
-							player[0].x--;
-							player[0].rlud = 3;
+						else {	// 왼쪽
+							if (player[a].x == 0) {
+								player[a].rlud = 1;
+								player[a].rl = 0;
+							}
+							else {
+								player[a].x--;
+								player[a].rlud = 1;
+							}
 						}
 					}
+					else { player[a].y--; }
+					break;
 				}
-				else { player[0].y++; }	// 아래로 이동
-				break;
-			case 2:	// 왼쪽
-				if (player[0].x == 0) {	// 왼쪽 벽
-					if (player[0].ud == 0) {	// 아래로
-						if (player[0].y == GRID - 1) {	// 마지막줄이면 오른쪽 위
-							player[0].rlud = 0;
-							player[0].ud = 1;
-						}
-						else {
-							player[0].y++;
-							player[0].rlud = 0;
-						}
-
-					}	
-					else {	// 위로
-						if (player[0].y == 0) {	// 첫줄
-							player[0].rlud = 0;
-							player[0].ud = 0;
-						}
-						else {
-							player[0].y--;
-							player[0].rlud = 0;
-						}
-					}
-				}
-				else { player[0].x--; }
-				break;
-			case 3:	// 위로
-				if (player[0].y == 0) {	// 윗 벽
-					if (player[0].rl == 0) {	// 오른쪽
-						if (player[0].x == GRID - 1) {	// 오른쪽 끝
-							player[0].rlud = 1;
-							player[0].rl = 1;
-						}
-						else {
-							player[0].x++;
-							player[0].rlud = 1;
-						}
-					}
-					else {	// 왼쪽
-						if (player[0].x == 0) {
-							player[0].rlud = 1;
-							player[0].rl = 0;
-						}
-						else{
-							player[0].x--;
-							player[0].rlud = 1;
-						}
-					}
-				}
-				else { player[0].y--; }
-				break;
 			}
-			player[0].x1 = player[0].x * grid;
-			player[0].y1 = player[0].y * grid;
-			player[0].x2 = player[0].x1 + grid;
-			player[0].y2 = player[0].y1 + grid;
-			break;
 		}
+		// 충돌체크
+		for (int i = 0; i < brick_num; i++) {	// player와 brick의 충돌
+			for (int j = 0; j < 21; j++) {
+				if (brick[i].x == player[j].x && brick[i].y == player[j].y) {
+					switch (wParam)
+					{
+					case 1:
+						switch (player[j].rlud)
+						{
+						case 0:	// 오른쪽
+							player[j].x--;
+							player[j].rlud = 2;
+							break;
+						case 1:	// 아래
+							player[j].y--;
+							player[j].rlud = 3;
+							break;
+						case 2:	// 왼쪽
+							player[j].x++;
+							player[j].rlud = 0;
+							break;
+						case 3:	// 위로
+							player[j].y++;
+							player[j].rlud = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+		// player[0]과 player충돌
+		for (int i = 1; i < 21; i++) {
+			if (player[i].x == player[0].x && player[i].y == player[0].y) {
+				if (player[i].is_move == 0) {	// 정지 상태면
+					player[i].is_move = 1;
+				}
+			}
+		}
+		// player와 player의 충돌
+		for (int i = 0; i < 21; i++) {
+			for (int j = 0; j < 21; j++) {
+				if(i == j){continue;}
+				if (player[i].x == player[j].x && player[i].y == player[j].y) {
+					
+				}
+			}
+		}
+		for (int b = 0; b < 21; b++) {
+			player[b].x1 = player[b].x * grid;
+			player[b].y1 = player[b].y * grid;
+			player[b].x2 = player[b].x1 + grid;
+			player[b].y2 = player[b].y1 + grid;
+		}
+		
+		
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 
@@ -393,11 +452,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		hDC = BeginPaint(hWnd, &ps);
 		DrawGrid(hDC, GRID);
 
-		for (int i = 0; i < 21; i++) {
+		for (int i = 0; i < brick_num; i++) {
 			SelectObject(hDC, brickBrush);
 			DrawRectangle(hDC, brick[i].x1, brick[i].y1, brick[i].x2, brick[i].y2);
 			DeleteObject(brickBrush);
 		}
+
 		for (int i = 0; i < 21; i++) {
 			if (player[i].is_move == 0) {	// 가만히
 				hBrush = CreateSolidBrush(player[i].color);
@@ -406,20 +466,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				DeleteObject(hBrush);
 			}
 			else {
-				if (count2 == 0) {
+				if (smaller == 0) {
 					hBrush = CreateSolidBrush(player[i].color);
 					SelectObject(hDC, hBrush);
 					DrawCircle(hDC, player[i].x1, player[i].y1, player[i].x2, player[i].y2);
 					DeleteObject(hBrush);
 				}
-				else if(count2 >= 1){
+				else if(smaller >= 1){
 					hBrush = CreateSolidBrush(player[i].color);
 					SelectObject(hDC, hBrush);
 					DrawCircle(hDC, player[i].x1, player[i].y1, player[i].x2 - 5, player[i].y2 - 5);
 					DeleteObject(hBrush);
-					count2++;
-					if (count2 > 50) {
-						count2 = 0;
+					smaller++;
+					if (smaller > 50) {
+						smaller = 0;
 					}
 				}
 			}
