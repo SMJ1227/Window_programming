@@ -174,6 +174,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static PLAYER player[21];
 	static int prev_move[21];
 	static int tail[21];
+	tail[0] = 0;
+	static int tail_length = 1;
 	
 	int grid = WINDOW_X / GRID;
 	static int speed = 150;
@@ -376,11 +378,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				if (player[i].is_move == 0) {	// 정지 상태면
 					player[i].is_move = 1;
 				}
+				else if (player[i].is_move == 1) {
+					tail[tail_length] = i;
+					tail_length++;
+				}
 			}
 		}
 		// player와 player의 충돌
-		for (int i = 0; i < 21; i++) {
-			for (int j = 0; j < 21; j++) {
+		for (int i = 1; i < 21; i++) {
+			for (int j = 1; j < 21; j++) {
 				if(i == j){continue;}
 				if (player[i].x == player[j].x && player[i].y == player[j].y) {
 					
