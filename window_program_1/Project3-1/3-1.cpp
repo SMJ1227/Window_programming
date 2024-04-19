@@ -63,6 +63,7 @@ typedef struct PLAYER {
 	int ud;
 	int rlud;
 	int is_move;
+	int is_tail;
 	COLORREF color;
 };
 
@@ -121,6 +122,7 @@ void InitPlayer(PLAYER *player, int grid) {
 	player->rl = 0;	// rl = 0 오른쪽 rl = 1 왼쪽
 	player->ud = 0;	// ud = 0 아래쪽 ud = 1위쪽
 	player->is_move = 1;
+	player->is_tail = 1;
 }
 
 void initStones(PLAYER* player, int grid) {
@@ -135,6 +137,7 @@ void initStones(PLAYER* player, int grid) {
 	player->ud = rand() % 2;	// ud = 0 아래쪽 ud = 1위쪽
 	player->rlud = rand() % 4;
 	player->is_move = 0;
+	player->is_tail = 0;
 }
 
 void move_to_mouse(PLAYER *player, int mouse_x, int mouse_y) {
@@ -233,8 +236,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		break;
 
 	case WM_TIMER:
+		for (int i = tail_length; i > 1; i--) {
+			player[tail[i]].x = player[tail[i - 1]].x;
+			player[tail[i]].y = player[tail[i - 1]].y;
+		}
 		for (int a = 0; a < 21; a++) {
-			if (player[a].is_move == 1) {
+			if (a == 0 || (player[a].is_tail == 0 && player[a].is_move == 1)) {
 				switch (player[a].rlud)
 				{
 				case 0:	// 오른쪽
@@ -342,6 +349,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				}
 			}
 		}
+		
 		// 충돌체크
 		for (int i = 0; i < brick_num; i++) {	// player와 brick의 충돌
 			for (int j = 0; j < 21; j++) {
@@ -381,6 +389,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				else if (player[i].is_move == 1) {
 					tail[tail_length] = i;
 					tail_length++;
+					player[i].is_tail = 1;
 				}
 			}
 		}
@@ -393,11 +402,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				}
 			}
 		}
-		for (int b = 0; b < 21; b++) {
-			player[b].x1 = player[b].x * grid;
-			player[b].y1 = player[b].y * grid;
-			player[b].x2 = player[b].x1 + grid;
-			player[b].y2 = player[b].y1 + grid;
+		// 좌표 지정
+		for (int i = 0; i < 21; i++) {
+			player[i].x1 = player[i].x * grid;
+			player[i].y1 = player[i].y * grid;
+			player[i].x2 = player[i].x1 + grid;
+			player[i].y2 = player[i].y1 + grid;
 		}
 		
 		
