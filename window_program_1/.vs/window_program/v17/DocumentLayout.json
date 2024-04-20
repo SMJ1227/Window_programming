@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "D:\\GitHub\\Window_programming\\window_program_1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AD8CA39D-2F06-4DEC-B279-19F503FF5213}|Project3-1\\Project3-1.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project3-1\\3-1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{AD8CA39D-2F06-4DEC-B279-19F503FF5213}|Project3-1\\Project3-1.vcxproj|solutionrelative:Project3-1\\3-1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD0211D9-9B06-403B-A4E9-0DC7E9096026}|Project2-14\\Project2-14.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project2-14\\2-14.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{BD0211D9-9B06-403B-A4E9-0DC7E9096026}|Project2-14\\Project2-14.vcxproj|solutionrelative:Project2-14\\2-14.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E40F31B1-5A4A-4A30-B2B7-71AE47186605}|Project2-13\\Project2-13.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project2-13\\2-13.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E40F31B1-5A4A-4A30-B2B7-71AE47186605}|Project2-13\\Project2-13.vcxproj|solutionrelative:Project2-13\\2-13.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{72FE6DEA-5982-4C9E-9285-E5B5C65A6BC1}|Project3-2\\Project3-2.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project3-2\\3-2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{72FE6DEA-5982-4C9E-9285-E5B5C65A6BC1}|Project3-2\\Project3-2.vcxproj|solutionrelative:Project3-2\\3-2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE7EA244-0577-4464-B426-A906F7EDBB5C}|Project2-12\\Project2-12.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project2-12\\2-12.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{FE7EA244-0577-4464-B426-A906F7EDBB5C}|Project2-12\\Project2-12.vcxproj|solutionrelative:Project2-12\\2-12.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD8CA39D-2F06-4DEC-B279-19F503FF5213}|Project3-1\\Project3-1.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project3-1\\3-1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{AD8CA39D-2F06-4DEC-B279-19F503FF5213}|Project3-1\\Project3-1.vcxproj|solutionrelative:Project3-1\\3-1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,53 +22,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "2-13.cpp",
-              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-13\\2-13.cpp",
-              "RelativeDocumentMoniker": "Project2-13\\2-13.cpp",
-              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-13\\2-13.cpp",
-              "RelativeToolTip": "Project2-13\\2-13.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 0,
+              "Title": "3-2.cpp",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project3-2\\3-2.cpp",
+              "RelativeDocumentMoniker": "Project3-2\\3-2.cpp",
+              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project3-2\\3-2.cpp",
+              "RelativeToolTip": "Project3-2\\3-2.cpp",
+              "ViewState": "AQIAAGoAAAAAAAAAAAAgwJ0AAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-04-16T05:02:08.982Z"
+              "WhenOpened": "2024-04-20T16:54:48.844Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "2-12.cpp",
               "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-12\\2-12.cpp",
               "RelativeDocumentMoniker": "Project2-12\\2-12.cpp",
               "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-12\\2-12.cpp",
               "RelativeToolTip": "Project2-12\\2-12.cpp",
-              "ViewState": "AQIAAIcBAAAAAAAAAAAAADsAAAAIAAAA",
+              "ViewState": "AQIAAIEBAAAAAAAAAAAgwDsAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-04-16T05:02:16.837Z"
+              "WhenOpened": "2024-04-16T05:02:16.837Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "2-14.cpp",
-              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-14\\2-14.cpp",
-              "RelativeDocumentMoniker": "Project2-14\\2-14.cpp",
-              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project2-14\\2-14.cpp",
-              "RelativeToolTip": "Project2-14\\2-14.cpp",
-              "ViewState": "AQIAAOcBAAAAAAAAAAAAAPwBAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-04-16T05:01:58.157Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "3-1.cpp",
               "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project3-1\\3-1.cpp",
               "RelativeDocumentMoniker": "Project3-1\\3-1.cpp",
               "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project3-1\\3-1.cpp",
               "RelativeToolTip": "Project3-1\\3-1.cpp",
-              "ViewState": "AQIAAOABAAAAAAAAAAAgwOkBAAAEAAAA",
+              "ViewState": "AQIAAGsCAAAAAAAAAAAgwIICAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-16T05:01:22.247Z",
               "EditorCaption": ""

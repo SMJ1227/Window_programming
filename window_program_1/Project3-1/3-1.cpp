@@ -640,6 +640,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	}
 
 	case WM_DESTROY:
+		KillTimer(hWnd, 1);
 		PostQuitMessage(0);
 		break;
 	}
