@@ -210,6 +210,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static PLAYER copy[21];
 	static int supermove = 0;
 
+	static int wParamCase2 = 0;
+
 	//--- 메세지 처리하기
 	switch (uMsg) {
 	case WM_CREATE:
@@ -465,6 +467,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			}
 			break;
 		case 2:
+			for (int i = tail_length; i >= 1; i--) {
+				player[tail[i]].x = player[tail[i - 1]].x;
+				player[tail[i]].y = player[tail[i - 1]].y;
+			}
+			if (wParamCase2 < 5) {
+				player[tail_head].y--;
+				wParamCase2++;
+			}
+			else if (wParamCase2 == 5 || wParamCase2 == 6) {
+				player[tail_head].x++;
+				wParamCase2++;
+			}
+			else if (wParamCase2 > 6 && wParamCase2 < 12) {
+				player[tail_head].y++;
+				wParamCase2++;
+			}
+			else if (wParamCase2 == 12) {
+				wParamCase2 = 0;
+				KillTimer(hWnd, 2);
+				SetTimer(hWnd, 1, speed, NULL);
+			}
+			// 좌표 지정
+			for (int i = 0; i < 21; i++) {
+				player[i].x1 = player[i].x * grid;
+				player[i].y1 = player[i].y * grid;
+				player[i].x2 = player[i].x1 + grid;
+				player[i].y2 = player[i].y1 + grid;
+			}
 			break;
 		}		
 		InvalidateRect(hWnd, NULL, TRUE);
@@ -507,6 +537,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				tail_length = prev_tail;
 				
 			}
+			break;
+		case 'j':
+			KillTimer(hWnd, 1);
+			SetTimer(hWnd, 2, speed, NULL);
 			break;
 		case 't':	
 			// tail의 모든 요소를 한 칸씩 앞으로 이동
