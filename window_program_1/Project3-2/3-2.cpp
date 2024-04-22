@@ -153,9 +153,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			}
 
 			// player ¿Ãµø
+				//if (!is_down) { break; }
 			switch (player_speed)
 			{
-				if (!is_down) { break; }
 			case 1:
 				player_y1 = player_y1 + 10;
 				player_y2 = player_y1 + grid;
@@ -231,7 +231,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			is_start = 0;
 			is_paused = 0;
 			speed = 150;
-			player_x1 = 0;
+			player_x1 = 230;
 			player_y1 = 0;
 			player_x2 = player_x1 + grid;
 			player_y2 = player_y1 + grid;
