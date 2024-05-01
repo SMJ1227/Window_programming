@@ -88,6 +88,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	HBRUSH brickBrush = CreateSolidBrush(brick_color);
 	static BRICK bricks[BRICKS];
 	static int brick_rl = 0;
+	static int lost_bricks = 0;
+	static TCHAR message[100];
 
 	COLORREF player_color = RGB(0, 0, 255);
 	HBRUSH playerBrush = CreateSolidBrush(player_color);
@@ -95,8 +97,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	static int player_y1 = 0;
 	static int player_x2 = player_x1 + grid;
 	static int player_y2 = player_y1 + grid;
-	static int is_down = 1;
 	static int player_speed;
+	static int player_is_down = 1;
+	static int player_rl;
+	static int degree;
 
 	static int l_mouse_x;
 	static int l_mouse_y;
@@ -145,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					bricks[i].x2 = bricks[i].x1 + length_x;
 				}
 			}
-			if (bricks[6].x1 > 450) {
+			if (bricks[6].x2 > 490) {
 				brick_rl = 1;
 			}
 			else if (bricks[0].x1 < 0) {
@@ -153,48 +157,106 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			}
 
 			// player 이동
-				//if (!is_down) { break; }
-			switch (player_speed)
+			switch (player_is_down)
 			{
-			case 1:
-				player_y1 = player_y1 + 10;
-				player_y2 = player_y1 + grid;
+			case 1:	// 하행
+				switch (player_speed)
+				{
+				case 1:
+					player_y1 = player_y1 + 10;
+					player_y2 = player_y1 + grid;
+					break;
+				case 2:
+					player_y1 = player_y1 + 10;
+					player_y2 = player_y1 + grid;
+					degree = 45;
+					break;
+				case 3:
+					player_y1 = player_y1 + 10;
+					player_y2 = player_y1 + grid;
+					break;
+				}
 				break;
-			case 2:
-				player_y1 = player_y1 + 10;
-				player_y2 = player_y1 + grid;
-				break;
-			case 3:
-				player_y1 = player_y1 + 10;
-				player_y2 = player_y1 + grid;
+			case 0:	// 상행
+				// player 반사
+				switch (player_rl)
+				{
+				case 0:	// 오른쪽
+					switch (player_speed)
+					{
+					case 1:
+						player_x1 = player_x1 + (grid * 2);
+						player_x2 = player_x1 + grid;
+						player_y1 = player_y1 - grid;
+						player_y2 = player_y1 + grid;
+						break;
+					case 2:
+						player_x1 = player_x1 + grid;
+						player_x2 = player_x1 + grid;
+						player_y1 = player_y1 - grid;
+						player_y2 = player_y1 + grid;
+						break;
+					case 3:
+						player_x1 = player_x1 + grid;
+						player_x2 = player_x1 + grid;
+						player_y1 = player_y1 - (grid * 2);
+						player_y2 = player_y1 + grid;
+						break;
+					}
+					break;
+				case 1:	// 왼쪽
+					switch (player_speed)
+					{
+					case 1:
+						player_x1 = player_x1 - (grid * 2);
+						player_x2 = player_x1 + grid;
+						player_y1 = player_y1 - grid;
+						player_y2 = player_y1 + grid;
+						break;
+					case 2:
+						player_x1 = player_x1 - grid;
+						player_x2 = player_x1 + grid;
+						player_y1 = player_y1 - grid;
+						player_y2 = player_y1 + grid;
+						break;
+					case 3:
+						player_x1 = player_x1 - grid;
+						player_x2 = player_x1 + grid;
+						player_y1 = player_y1 - (grid * 2);
+						player_y2 = player_y1 + grid;
+						break;
+					}
+					break;
+				}
 				break;
 			}
-			
-
 			// 충돌체크
 			// brick disable
 			for (int i = 0; i < BRICK_X * BRICK_Y; i++) {
+				if (bricks[i].is_disable == 1) { continue; }
 				if (player_y2 >= bricks[i].y1 && player_y2 <= bricks[i].y2) {
 					if ((player_x1 >= bricks[i].x1 && player_x1 <= bricks[i].x2) || (player_x2 >= bricks[i].x1 && player_x2 <= bricks[i].x2)) {
 						bricks[i].is_disable = 1;
+						player_is_down = 0;
+						player_speed = rand() % 3 + 1;
+						player_rl = rand() % 2;
+						lost_bricks++;
 					}
 				}
 			}
-			// player 반사
-			switch (player_speed)
-			{
-			case 1:
-				player_y1 = player_y1 - 10;
-				player_y2 = player_y1 + grid;
-				break;
-			case 2:
-				player_y1 = player_y1 - 10;
-				player_y2 = player_y1 + grid;
-				break;
-			case 3:
-				player_y1 = player_y1 - 10;
-				player_y2 = player_y1 + grid;
-				break;
+			// 테두리 체크
+			if (player_y1 <= 0) {			// 맨 위
+				player_is_down = 1;
+			}
+			if (player_y1 >= WINDOW_Y) {	// 맨 아래
+				player_y1 = 0;
+				player_y2 = player_y1 * grid;
+			}
+			if (player_x2 >= 490) {	// 오른쪽
+				player_rl = 1;
+			}
+			if (player_x1 <= 0) {	// 왼쪽
+				player_rl = 0;
 			}
 			break;
 		}
@@ -205,20 +267,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		switch (wParam)
 		{
 		case 'q':
+		case 'Q':
 			PostQuitMessage(1);
 			break;
 		case 's':
+		case 'S':
 			if(!is_start){ 
 				player_speed = rand() % 3 + 1;
+				player_rl = rand() % 2;
 				SetTimer(hWnd, 1, speed, NULL); 
 			}
 			is_start++;			
 			break;
 		case 'p':
+		case 'P':
 			if (!is_start) { break; }
 			if (!is_paused) {
 				KillTimer(hWnd, 1);
 				is_paused++;
+				wsprintf(message, L"사라진 블럭 : %d", lost_bricks);
+				MessageBox(hWnd, message, L"정보", MB_OK);
 			}
 			else {
 				SetTimer(hWnd, 1, speed, NULL);
@@ -226,6 +294,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			}
 			break;
 		case 'n':
+		case 'N':
 			if (!is_start) { break; }
 			KillTimer(hWnd, 1);
 			is_start = 0;
@@ -236,6 +305,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			player_x2 = player_x1 + grid;
 			player_y2 = player_y1 + grid;
 			brick_rl = 0;
+			lost_bricks = 0;
 			InitBRICK(bricks, grid, length_x, startX, startY);
 			break;
 		case '+':

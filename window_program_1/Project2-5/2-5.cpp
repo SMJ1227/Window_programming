@@ -98,7 +98,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		hDC = BeginPaint(hWnd, &ps);
 		for (int i = 0; i < MAX_Y; i++) {
 			GetTextExtentPoint32(hDC, str[i], count, &size);
-			TextOut(hDC, 0, i*20, str[i], lstrlen(str[i]));
+			TextOut(hDC, 0, i*20, str[i], _tcslen(str[i]));
 			if (i == y) {
 				SetCaretPos(size.cx, i * 20);
 			}	
