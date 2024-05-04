@@ -11,9 +11,9 @@
 #define WINDOW_X 500
 #define WINDOW_Y 500
 #define GRID 40
-#define BRICKS (BRICK_X * BRICK_Y)
-#define BRICK_X 7
-#define BRICK_Y 3
+#define bricks (BRICK_X * brick_y)
+#define brick_x 7
+#define brick_y 3
 
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Window Class Name";
@@ -61,9 +61,9 @@ typedef struct BRICK {
 };
 
 void InitBRICK(BRICK* bricks, int grid, int length_x, int startX, int startY) {	
-	for (int i = 0; i < BRICK_X * BRICK_Y; i++) {
-		bricks[i].x1 = startX + length_x * (i % BRICK_X);
-		bricks[i].y1 = startY + (i / BRICK_X) * grid;
+	for (int i = 0; i < brick_x * brick_y; i++) {
+		bricks[i].x1 = startX + length_x * (i % brick_x);
+		bricks[i].y1 = startY + (i / brick_x) * grid;
 		bricks[i].x2 = bricks[i].x1 + length_x;
 		bricks[i].y2 = bricks[i].y1 + grid;
 		bricks[i].is_disable = 0;
@@ -79,14 +79,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	int startX = 150;
 	int startY = 400;
 	int grid = WINDOW_X / GRID;
-	int length_x = (WINDOW_X - (startX * 2)) / BRICK_X;
+	int length_x = (WINDOW_X - (startX * 2)) / brick_x;
 	static int speed = 150;
 
 	srand((unsigned int)time(NULL));
 
 	COLORREF brick_color = RGB(255, 255, 0);
 	HBRUSH brickBrush = CreateSolidBrush(brick_color);
-	static BRICK bricks[BRICKS];
+	static BRICK bricks[bricks];
 	static int brick_rl = 0;
 	static int lost_bricks = 0;
 	static TCHAR message[100];
@@ -117,7 +117,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	case WM_LBUTTONDOWN:
 		if (!is_start) { break; }
 		if (bricks[0].x1 > 0) {
-			for (int i = 0; i < BRICK_X * BRICK_Y; i++) {
+			for (int i = 0; i < brick_x * brick_y; i++) {
 				bricks[i].x1 = bricks[i].x1 - 15;
 				bricks[i].x2 = bricks[i].x1 + length_x;
 			}
@@ -127,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	case WM_RBUTTONDOWN:
 		if (!is_start) { break; }
 		if (bricks[6].x1 < 450) {
-			for (int i = 0; i < BRICK_X * BRICK_Y; i++) {
+			for (int i = 0; i < brick_x * brick_y; i++) {
 				bricks[i].x1 = bricks[i].x1 + 15;
 				bricks[i].x2 = bricks[i].x1 + length_x;
 			}
@@ -139,7 +139,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		{
 		case 1:
 			// 블럭 이동
-			for (int i = 0; i < BRICK_X * BRICK_Y; i++) {
+			for (int i = 0; i < brick_x * brick_y; i++) {
 				if (brick_rl == 0) {
 					bricks[i].x1 = bricks[i].x1 + 5;
 					bricks[i].x2 = bricks[i].x1 + length_x;
@@ -232,7 +232,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			}
 			// 충돌체크
 			// brick disable
-			for (int i = 0; i < BRICK_X * BRICK_Y; i++) {
+			for (int i = 0; i < brick_x * brick_y; i++) {
 				if (bricks[i].is_disable == 1) { continue; }
 				if (player_y2 >= bricks[i].y1 && player_y2 <= bricks[i].y2) {
 					if ((player_x1 >= bricks[i].x1 && player_x1 <= bricks[i].x2) || (player_x2 >= bricks[i].x1 && player_x2 <= bricks[i].x2)) {
@@ -338,7 +338,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		Ellipse(hDC, player_x1, player_y1, player_x2, player_y2);
 
 		SelectObject(hDC, brickBrush);
-		for (int i = 0; i < BRICKS; i++) {
+		for (int i = 0; i < bricks; i++) {
 			if (!bricks[i].is_disable) {
 				Rectangle(hDC, bricks[i].x1, bricks[i].y1, bricks[i].x2, bricks[i].y2);
 			}

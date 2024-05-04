@@ -1,4 +1,4 @@
 ﻿  4-1.cpp
-D:\GitHub\Window_programming\window_program_1\Project4-1\4-1.cpp(53,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\window_program_1\Project4-1\4-1.cpp(62,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'BRICK' 왼쪽은 무시됩니다.
+D:\GitHub\Window_programming\window_program_1\Project4-1\4-1.cpp(50,16): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project4-1\4-1.cpp(59,2): warning C4091: 'typedef ': 변수를 선언하지 않으면 'BRICK' 왼쪽은 무시됩니다.
   Project4-1.vcxproj -> D:\GitHub\Window_programming\window_program_1\x64\Debug\Project4-1.exe
