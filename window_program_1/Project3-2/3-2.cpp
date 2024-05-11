@@ -11,7 +11,7 @@
 #define WINDOW_X 500
 #define WINDOW_Y 500
 #define GRID 40
-#define bricks (BRICK_X * brick_y)
+#define BRICKS (BRICK_X * brick_y)
 #define brick_x 7
 #define brick_y 3
 
@@ -86,7 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 
 	COLORREF brick_color = RGB(255, 255, 0);
 	HBRUSH brickBrush = CreateSolidBrush(brick_color);
-	static BRICK bricks[bricks];
+	static BRICK bricks[BRICKS];
 	static int brick_rl = 0;
 	static int lost_bricks = 0;
 	static TCHAR message[100];
