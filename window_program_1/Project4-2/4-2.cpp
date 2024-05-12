@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include "resource.h"
 
 #define M_PI 3.14
 #define WINDOW_X 500
@@ -33,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	WndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	WndClass.hCursor = LoadCursor(NULL, IDC_HAND);
 	WndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	WndClass.lpszMenuName = NULL;
+	WndClass.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
 	WndClass.lpszClassName = lpszClass;
 	WndClass.hIconSm = LoadIcon(NULL, IDI_QUESTION);
 	RegisterClassEx(&WndClass);
@@ -78,33 +79,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	PAINTSTRUCT ps;
 	HDC hDC;
 
-	HPEN linePen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	static HPEN hPen;
+	static COLORREF hpen_color = RGB(0,0,0);
+	static BOOL isSolid = TRUE;
 	int grid = WINDOW_X / GRID;	
 
 	srand((unsigned int)time(NULL));
-
+		 
 	HBRUSH brickBrush[5];
 	COLORREF brickColor[5];
-	brickColor[0] = RGB(255, 0, 0);	// 빨
-	brickColor[1] = RGB(0, 255, 0);	// 초
-	brickColor[2] = RGB(0, 0, 255);	// 파
+	brickColor[0] = RGB(255, 0, 0);		// 빨
+	brickColor[1] = RGB(0, 255, 0);		// 초
+	brickColor[2] = RGB(0, 0, 255);		// 파
 	brickColor[3] = RGB(0, 255, 255);	// 하늘
 	brickColor[4] = RGB(255, 255, 0);	// 노
 
 	static int count = 0; 
 	static BRICK bricks[5];
-	static BOOL Drag = FALSE;
-
-	static COLORREF crossed;
-	static HBRUSH crossed_brush;
-	static int avgRed;
-	static int avgGreen;
-	static int avgBlue;
+	static BOOL LDrag = FALSE;
+	static BOOL RDrag = FALSE;
+	static int rSelected;
+	static BOOL border = FALSE;
 
 	static int l_mouse_x;
 	static int l_mouse_y;
 	static int r_mouse_x;
 	static int r_mouse_y;
+	static BOOL rdisable = FALSE;
+
+	static BOOL informing = FALSE;
 
 	//--- 메세지 처리하기
 	switch (uMsg) {
@@ -118,10 +121,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		InvalidateRect(hWnd, NULL, TRUE);
 		bricks[count].oldX = bricks[count].startX = LOWORD(IParam) / grid * grid;
 		bricks[count].oldY = bricks[count].startY = HIWORD(IParam) / grid * grid;
-		Drag = TRUE;
+		LDrag = TRUE;
 		break;
 	case WM_LBUTTONUP:
-		Drag = FALSE;
+		LDrag = FALSE;
 		count = (count + 1) % 5;
 		if (count >= 5) {
 			count = 0;
@@ -129,13 +132,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 	case WM_RBUTTONDOWN:
-		Drag = FALSE;
+		if (rdisable) {
+			break;
+		}
+		RDrag = TRUE;
 		r_mouse_x = LOWORD(IParam);
 		r_mouse_y = HIWORD(IParam);
+		for (int i = 0; i < 5; i++) {
+			if (r_mouse_x > bricks[i].startX && r_mouse_x < bricks[i].oldX &&
+				r_mouse_y > bricks[i].startY && r_mouse_y < bricks[i].oldY) {
+				bricks[i].selected = TRUE;
+				rSelected = i;
+			}
+		}
+		break;
+	case WM_RBUTTONUP:
+		if (rdisable) {
+			break;
+		}
+		RDrag = FALSE;
+		bricks[rSelected].startX = bricks[rSelected].startX / grid * grid;
+		bricks[rSelected].startY = bricks[rSelected].startY / grid * grid;
+		bricks[rSelected].oldX = bricks[rSelected].oldX / grid * grid + 1;
+		bricks[rSelected].oldY = bricks[rSelected].oldY / grid * grid + 1;
+		bricks[rSelected].selected = FALSE;
+		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 	case WM_MOUSEMOVE:
 		hDC = GetDC(hWnd);
-		if (Drag)
+		if (LDrag)
 		{
 			SetROP2(hDC, R2_COPYPEN);
 			brickBrush[count] = CreateSolidBrush(brickColor[count]);
@@ -146,6 +171,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 			Rectangle(hDC, bricks[count].startX, bricks[count].startY, bricks[count].endX, bricks[count].endY);	// 그리기
 			bricks[count].oldX = bricks[count].endX; bricks[count].oldY = bricks[count].endY;
 			DeleteObject(brickBrush[count]);
+		}
+		if (RDrag) {
+			int mouseX = LOWORD(IParam);
+			int mouseY = HIWORD(IParam);
+			int deltaX = mouseX - r_mouse_x;
+			int deltaY = mouseY - r_mouse_y;
+			bricks[rSelected].startX += deltaX;
+			bricks[rSelected].startY += deltaY;
+			bricks[rSelected].oldX += deltaX;
+			bricks[rSelected].oldY += deltaY;
+			r_mouse_x = mouseX;
+			r_mouse_y = mouseY;
+			InvalidateRect(hWnd, NULL, TRUE);
 		}
 		ReleaseDC(hWnd, hDC);
 		break;
@@ -208,6 +246,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					bricks[i].startX = bricks[i].startX + grid;
 					bricks[i].oldX = bricks[i].oldX + grid;
 				}
+				if (bricks[i].startX > WINDOW_X) {
+					bricks[i].startX = bricks[i].startX - WINDOW_X;
+					bricks[i].oldX = bricks[i].oldX - WINDOW_X;
+				}
 			}
 			break;
 		case VK_LEFT:
@@ -215,6 +257,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				if (bricks[i].selected) {
 					bricks[i].startX = bricks[i].startX - grid;
 					bricks[i].oldX = bricks[i].oldX - grid;
+				}
+				if (bricks[i].oldX < 0) {
+					bricks[i].startX = bricks[i].startX + WINDOW_X;
+					bricks[i].oldX = bricks[i].oldX + WINDOW_X;
 				}
 			}
 			break;
@@ -224,6 +270,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					bricks[i].startY = bricks[i].startY - grid;
 					bricks[i].oldY = bricks[i].oldY - grid;
 				}
+				if (bricks[i].oldY < 0) {
+					bricks[i].startY = bricks[i].startY + WINDOW_Y;
+					bricks[i].oldY = bricks[i].oldY + WINDOW_Y;
+				}
 			}
 			break;
 		case VK_DOWN:
@@ -232,7 +282,59 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 					bricks[i].startY = bricks[i].startY + grid;
 					bricks[i].oldY = bricks[i].oldY + grid;
 				}
+				if (bricks[i].startY > WINDOW_Y) {
+					bricks[i].startY = bricks[i].startY - WINDOW_Y;
+					bricks[i].oldY = bricks[i].oldY - WINDOW_Y;
+				}
 			}
+			break;
+		}
+		InvalidateRect(hWnd, NULL, TRUE);
+		break;
+
+	case WM_COMMAND: //--- 메뉴를 선택했을 때
+		switch (LOWORD(wParam)) {
+		case ID_GRID_SOLID:
+			isSolid = TRUE;
+			break;
+		case ID_GRID_DOT:
+			isSolid = FALSE;
+			break;
+		case ID_COLOR_RED:
+			hpen_color = RGB(255,0,0);
+			break;
+		case ID_COLOR_GREEN:
+			hpen_color = RGB(0,255,0);
+			break;
+		case ID_COLOR_BLUE:
+			hpen_color = RGB(0,0,255);
+			break;
+		case ID_COLOR_SKY:
+			hpen_color = RGB(0,255,255);
+			break;
+		case ID_COLOR_YELLOW:
+			hpen_color = RGB(255,255,0);
+			break;
+		case ID_COLOR_BLACK:
+			hpen_color = RGB(0, 0, 0);
+			break;
+		case ID_BORDER_OFF:
+			border = FALSE;
+			break;
+		case ID_BORDER_ON:
+			border = TRUE;
+			break;
+		case ID_MOVE_OFF:
+			rdisable = TRUE;
+			break;
+		case ID_MOVE_ON:
+			rdisable = FALSE;
+			break;
+		case ID_INFORM_OFF:
+			informing = FALSE;
+			break;
+		case ID_INFORM_ON:
+			informing = TRUE;
 			break;
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
@@ -241,39 +343,48 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 	case WM_PAINT:
 	{
 		hDC = BeginPaint(hWnd, &ps);
-		DrawGrid(hDC, GRID);
-		DeleteObject(linePen);
+		if (isSolid) {
+			hPen = CreatePen(PS_SOLID, 1, hpen_color);
+			SelectObject(hDC, hPen);
+			DrawGrid(hDC, GRID);
+			DeleteObject(hPen);
+		}
+		if (!isSolid) {
+			hPen = CreatePen(PS_DOT, 1, hpen_color);
+			SelectObject(hDC, hPen);
+			DrawGrid(hDC, GRID);
+			DeleteObject(hPen);
+		}
+		
 
 		for (int i = 0; i < 5; i++) {
-			// 현재 사각형이 윈도우의 영역을 벗어난 만큼 추가적인 도형을 그립니다.
-			int offsetY = 0;
-			int offsetX = 0;
-			if (bricks[i].oldX > WINDOW_X) {
-				offsetX = (bricks[i].oldX - WINDOW_X) / grid * grid;
-			}
-			if (bricks[i].oldY > WINDOW_Y) {
-				offsetY = (bricks[i].oldY - WINDOW_Y);
-			}
 			// 원래의 사각형 그리기
 			brickBrush[i] = CreateSolidBrush(brickColor[i]);
 			SelectObject(hDC, brickBrush[i]);
 			Rectangle(hDC, bricks[i].startX, bricks[i].startY, bricks[i].oldX, bricks[i].oldY);
 			DeleteObject(brickBrush[i]);
-			if (bricks[i].selected) {
+			if (bricks[i].selected || border) {
 				SelectObject(hDC, (HPEN)GetStockObject(WHITE_PEN));
 				Rectangle(hDC, bricks[i].startX, bricks[i].startY, bricks[i].oldX, bricks[i].oldY);
 			}
 
-			brickBrush[i] = CreateSolidBrush(brickColor[i]);
-			SelectObject(hDC, brickBrush[i]);
-			Rectangle(hDC, 0, bricks[i].startY, offsetX, bricks[i].oldY);
-			DeleteObject(brickBrush[i]);
-			if (bricks[i].selected) {
-				SelectObject(hDC, (HPEN)GetStockObject(WHITE_PEN));
+			// 현재 사각형이 윈도우의 영역을 벗어난 만큼 추가적인 도형을 그립니다.
+			int offsetY = 0;
+			int offsetX = 0;
+			if (bricks[i].oldX > WINDOW_X) {
+				offsetX = (bricks[i].oldX - WINDOW_X) / grid * grid;
+				brickBrush[i] = CreateSolidBrush(brickColor[i]);
+				SelectObject(hDC, brickBrush[i]);
 				Rectangle(hDC, 0, bricks[i].startY, offsetX, bricks[i].oldY);
+				DeleteObject(brickBrush[i]);
 			}
-
-			
+			if (bricks[i].oldY > WINDOW_Y) {
+				offsetY = (bricks[i].oldY - WINDOW_Y) / grid * grid;
+				brickBrush[i] = CreateSolidBrush(brickColor[i]);
+				SelectObject(hDC, brickBrush[i]);
+				Rectangle(hDC, bricks[i].startX, 0, bricks[i].oldX, offsetY);
+				DeleteObject(brickBrush[i]);
+			}
 		}
 
 		for (int i = 0; i < 5; i++) {
@@ -284,16 +395,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM IParam) {
 				int bottom = min(bricks[i].oldY, bricks[j].oldY);
 
 				if (left < right && top < bottom) {
-					avgRed = (GetRValue(brickColor[i]) + GetRValue(brickColor[j])) % 256;
-					avgGreen = (GetGValue(brickColor[i]) + GetGValue(brickColor[j])) % 256;
-					avgBlue = (GetBValue(brickColor[i]) + GetBValue(brickColor[j])) % 256;
+					int avgRed = (GetRValue(brickColor[i]) + GetRValue(brickColor[j])) % 256;
+					int avgGreen = (GetGValue(brickColor[i]) + GetGValue(brickColor[j])) % 256;
+					int avgBlue = (GetBValue(brickColor[i]) + GetBValue(brickColor[j])) % 256;
 
-					crossed = RGB(avgRed, avgGreen, avgBlue);
-					crossed_brush = CreateSolidBrush(crossed);
+					COLORREF crossed = RGB(avgRed, avgGreen, avgBlue);
+					HBRUSH crossed_brush = CreateSolidBrush(crossed);
 					SelectObject(hDC, crossed_brush);
 					Rectangle(hDC, left, top, right, bottom);
 					DeleteObject(crossed_brush);
 				}
+			}
+		}
+
+		if (informing) {
+			TCHAR infoText[200];
+
+			wsprintf(infoText, TEXT("도형의 개수: %d\n"), count); // 도형의 개수를 문자열에 추가
+			TextOut(hDC, 10, 10, infoText, lstrlen(infoText)); // 화면에 텍스트 출력
+
+			// 각 도형의 가로세로 크기와 색상 출력
+			for (int i = 0; i < 5; i++) {
+				wsprintf(infoText, TEXT("도형 %d: 가로 %d, 세로 %d, 색상(RGB): (%d, %d, %d)\n"),
+					i + 1, bricks[i].oldX - bricks[i].startX, bricks[i].oldY - bricks[i].startY,
+					GetRValue(brickColor[i]), GetGValue(brickColor[i]), GetBValue(brickColor[i]));
+				TextOut(hDC, 10, 30 + i * 20, infoText, lstrlen(infoText)); // 화면에 텍스트 출력
 			}
 		}
 		EndPaint(hWnd, &ps);
