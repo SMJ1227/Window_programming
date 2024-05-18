@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "D:\\GitHub\\Window_programming\\Inversus\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\GitHub\\Window_programming\\Inversus\\Inversus\\\uC11C\uC815\uBBFC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Inversus\\\uC11C\uC815\uBBFC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{74D9CED7-24A2-4A76-B2CD-5259BD204EA3}|Inversus\\Inversus.vcxproj|D:\\GitHub\\Window_programming\\Inversus\\Inversus\\\uC18C\uC2A4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{74D9CED7-24A2-4A76-B2CD-5259BD204EA3}|Inversus\\Inversus.vcxproj|solutionrelative:Inversus\\\uC18C\uC2A4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74D9CED7-24A2-4A76-B2CD-5259BD204EA3}|Inversus\\Inversus.vcxproj|D:\\GitHub\\Window_programming\\Inversus\\Inversus\\resource.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{74D9CED7-24A2-4A76-B2CD-5259BD204EA3}|Inversus\\Inversus.vcxproj|solutionrelative:Inversus\\resource.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,12 +27,38 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "\uC11C\uC815\uBBFC.cpp",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\Inversus\\Inversus\\\uC11C\uC815\uBBFC.cpp",
+              "RelativeDocumentMoniker": "Inversus\\\uC11C\uC815\uBBFC.cpp",
+              "ToolTip": "D:\\GitHub\\Window_programming\\Inversus\\Inversus\\\uC11C\uC815\uBBFC.cpp",
+              "RelativeToolTip": "Inversus\\\uC11C\uC815\uBBFC.cpp",
+              "ViewState": "AQIAAB0BAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-05-18T11:18:05.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "resource.h",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\Inversus\\Inversus\\resource.h",
+              "RelativeDocumentMoniker": "Inversus\\resource.h",
+              "ToolTip": "D:\\GitHub\\Window_programming\\Inversus\\Inversus\\resource.h",
+              "RelativeToolTip": "Inversus\\resource.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-05-18T08:23:57.651Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "\uC18C\uC2A4.cpp",
               "DocumentMoniker": "D:\\GitHub\\Window_programming\\Inversus\\Inversus\\\uC18C\uC2A4.cpp",
               "RelativeDocumentMoniker": "Inversus\\\uC18C\uC2A4.cpp",
               "ToolTip": "D:\\GitHub\\Window_programming\\Inversus\\Inversus\\\uC18C\uC2A4.cpp",
               "RelativeToolTip": "Inversus\\\uC18C\uC2A4.cpp",
-              "ViewState": "AQIAANUBAAAAAAAAAAAUwPgBAAAeAAAA",
+              "ViewState": "AQIAANsAAAAAAAAAAAAAAEMBAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-05-14T06:44:32.846Z",
               "EditorCaption": ""
