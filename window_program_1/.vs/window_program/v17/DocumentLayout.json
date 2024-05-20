@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\GitHub\\Window_programming\\window_program_1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{27493297-E691-4AEE-8130-8546B57F8F1B}|Proto\\Proto.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Proto\\\uC18C\uC2A4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{27493297-E691-4AEE-8130-8546B57F8F1B}|Proto\\Proto.vcxproj|solutionrelative:Proto\\\uC18C\uC2A4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6BF097B1-F48C-42CB-B82C-047D6A9264C0}|Project4-3\\Project4-3.vcxproj|D:\\GitHub\\Window_programming\\window_program_1\\Project4-3\\4-3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6BF097B1-F48C-42CB-B82C-047D6A9264C0}|Project4-3\\Project4-3.vcxproj|solutionrelative:Project4-3\\4-3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -23,19 +27,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "4-3.cpp",
-              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project4-3\\4-3.cpp",
-              "RelativeDocumentMoniker": "Project4-3\\4-3.cpp",
-              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project4-3\\4-3.cpp*",
-              "RelativeToolTip": "Project4-3\\4-3.cpp*",
-              "ViewState": "AQIAANEAAAAAAAAAAAAAwAoBAAARAAAA",
+              "Title": "\uC18C\uC2A4.cpp",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Proto\\\uC18C\uC2A4.cpp",
+              "RelativeDocumentMoniker": "Proto\\\uC18C\uC2A4.cpp",
+              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Proto\\\uC18C\uC2A4.cpp",
+              "RelativeToolTip": "Proto\\\uC18C\uC2A4.cpp",
+              "ViewState": "AQIAAGEAAAAAAAAAAAAAAB0AAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-05-14T05:54:42.686Z",
+              "WhenOpened": "2024-05-20T09:13:34.979Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "4-3.cpp",
+              "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project4-3\\4-3.cpp",
+              "RelativeDocumentMoniker": "Project4-3\\4-3.cpp",
+              "ToolTip": "D:\\GitHub\\Window_programming\\window_program_1\\Project4-3\\4-3.cpp",
+              "RelativeToolTip": "Project4-3\\4-3.cpp",
+              "ViewState": "AQIAAHgBAAAAAAAAAAAmwJQBAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-05-14T05:54:42.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "4-2.cpp",
               "DocumentMoniker": "D:\\GitHub\\Window_programming\\window_program_1\\Project4-2\\4-2.cpp",
               "RelativeDocumentMoniker": "Project4-2\\4-2.cpp",
