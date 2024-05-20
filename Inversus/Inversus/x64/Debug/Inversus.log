@@ -1,10 +1,1 @@
-﻿  소스.cpp
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(61,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(290,32): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(556,21): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(557,21): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(592,25): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(593,25): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(727,73): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\GitHub\Window_programming\Inversus\Inversus\소스.cpp(728,73): warning C4244: '+=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Inversus.vcxproj -> D:\GitHub\Window_programming\Inversus\x64\Debug\Inversus.exe
+﻿  Inversus.vcxproj -> D:\GitHub\Window_programming\Inversus\x64\Debug\Inversus.exe
