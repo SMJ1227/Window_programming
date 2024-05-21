@@ -6,7 +6,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <gdiplus.h>
 //#include "resource.h"
+
+using namespace Gdiplus;
+#pragma comment (lib,"Gdiplus.lib")
 
 #define WINDOW_X 300
 #define WINDOW_Y 600
