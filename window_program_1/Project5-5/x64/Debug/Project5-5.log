@@ -1,0 +1,10 @@
+﻿  5-5.cpp
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(61,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(217,58): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(222,71): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(435,21): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(436,21): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(470,25): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(471,25): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\GitHub\Window_programming\window_program_1\Project5-5\5-5.cpp(601,54): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Project5-5.vcxproj -> D:\GitHub\Window_programming\window_program_1\x64\Debug\Project5-5.exe
